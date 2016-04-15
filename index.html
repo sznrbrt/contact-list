@@ -15,8 +15,128 @@
   <script src="main.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Hello-bello!</h1>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 topper">
+        <h1 class="pageTitle">Contact List App</h1>
+        <button id="newContact" class="btn" data-toggle="modal" data-target=".bs-example-modal-sm">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+        <p class="buttonLabel">New contact</p>
+      </div>
+    </div>
+
+    <div class="row" id="contactList">
+
+      <div class="col-xs-12 col-md-4 contactItem">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="col-xs-4 col-md-3  imageBox">
+              <img class="profileImg" src="https://pbs.twimg.com/profile_images/422587147124604928/hlT0oR0m_400x400.png" alt="">
+            </div>
+            <div class="col-xs-8 col-md-9">
+              <div class="row">
+                <h4 class="name">
+                  Adam D'Angelo
+                </h4>
+                <p class="phone">
+                  <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                  <span class="num">636-555-3226</span>
+                </p>
+                <p class="address">
+                  <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                  <span class="homeAddress">4855 Delaware Avenue, San Francisco, 94108</span>
+                </p>
+                <p class="email">
+                  <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                  <span class="emailAddress">adam@quora.com</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-md-4 contactItem">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="col-xs-4 col-md-3  imageBox">
+              <img class="profileImg" src="https://pbs.twimg.com/profile_images/668902554957316096/IpjBGyjC.jpg" alt="">
+            </div>
+            <div class="col-xs-8 col-md-9">
+              <div class="row">
+                <h4 class="name">
+                  Chris Sacca
+                </h4>
+                <p class="phone">
+                  <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+                  <span class="num">636-555-3226</span>
+                </p>
+                <p class="address">
+                  <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                  <span class="homeAddress">4855 Delaware Avenue, San Francisco, 94108</span>
+                </p>
+                <p class="email">
+                  <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                  <span class="emailAddress">chris@lowercasecapital.com</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <!--  Modal -->
+      <!-- Small modal -->
+      <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog" role="document">
+   <div class="modal-content">
+     <div class="modal-header text-center">
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+       <h4 class="modal-title" id="myModalLabel">New Contact</h4>
+     </div>
+     <div class="modal-body text-center">
+       <form action="" id="contactForm">
+
+         <div class="input-group topMargin" id="name">
+          <span class="input-group-addon atLeastWidth">Name</span>
+          <input type="text" class="form-control" id="input-name" placeholder="E.g.: John Doe" aria-describedby="basic-addon1">
+         </div>
+
+         <div class="input-group topMargin" id="phone">
+          <span class="input-group-addon atLeastWidth">Phone</span>
+          <input type="text" class="form-control"  id="input-phone" placeholder="E.g: 636-555-3226" aria-describedby="basic-addon1">
+         </div>
+
+         <div class="input-group topMargin" id="url">
+          <span class="input-group-addon atLeastWidth">Image Url</span>
+          <input type="text" class="form-control" id="input-url" placeholder="E.g: https://www.photoabout.me" aria-describedby="basic-addon1">
+         </div>
+
+         <div class="input-group topMargin" id="address">
+          <span class="input-group-addon atLeastWidth">Address</span>
+          <input type="text" class="form-control" id="input-address" placeholder="E.g: 4855 Delaware Avenue, San Francisco, 94108" aria-describedby="basic-addon1">
+         </div>
+
+         <div class="input-group topMargin" id="email">
+          <span class="input-group-addon atLeastWidth">Email</span>
+          <input type="text" class="form-control" id="input-email" placeholder="E.g: example@example.com" aria-describedby="basic-addon1">
+         </div>
+
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       <button type="button" class="btn btn-primary" id="addContact" form="contactForm" value="Submit">Add</button>
+     </div>
+     </form>
+   </div>
+      </div>
+
+    </div>
+
   </div>
 </body>
 </html>
