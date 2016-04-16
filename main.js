@@ -94,7 +94,6 @@ function addContact(){
 
 function deleteContact(event){
   var index = $(event.target).closest('.contactItem').index();
-  console.log(index);
   var contacts = NameStorage.get();
     contacts.splice(index, 1);
     NameStorage.write(contacts);
@@ -104,6 +103,35 @@ function deleteContact(event){
 
 function editContact(event){
   var index = $(event.target).closest('.contactItem').index();
+  var editableContact = NameStorage.get()[index];
+  // Fill in inputfields
+  var editModal = $('.bs-edit-modal-sm');
+  editModal.find('#contactUnderEdit').text(editableContact.name);
+  editModal.find('#edit-input-name').val(editableContact.name);
+  editModal.find('#edit-input-phone').val(editableContact.phone);
+  editModal.find('#edit-input-url').val(editableContact.url);
+  editModal.find('#edit-input-address').val(editableContact.address);
+  editModal.find('#edit-input-email').val(editableContact.email);
 
-  console.log(index);
+  $('#editContact').click(function(){
+    console.log('why?');
+    editableContact.name = $('#edit-input-name').val();
+    editableContact.phone = $('#edit-input-phone').val() || "N/A";
+    editableContact.url = $('#edit-input-url').val() || "http://placehold.it/300x300";
+    editableContact.address = $('#edit-input-address').val() || "N/A";
+    editableContact.email = $('#edit-input-email').val() || "N/A";
+    // Form validation for the name
+    if(editableContact.name === '') {
+      $('#name').addClass('has-error');
+      return;
+    }
+    var contactList = NameStorage.get();
+    contactList[index] = editableContact;
+
+    NameStorage.write(contactList);
+
+    renderList();
+    $('.modal').modal('hide')
+    $('.has-error').removeClass('has-error');
+  });
 }
