@@ -1,19 +1,76 @@
 "use strict";
 
+var contactSamples = [
+  {
+   "name":"Adam D'Angelo",
+   "phone":"636-555-3226",
+   "address":"855 Delaware Avenue, San Francisco, 94108",
+   "email":"adam@quora.com",
+   "url":"https://pbs.twimg.com/profile_images/422587147124604928/hlT0oR0m_400x400.png"
+  },
+  {
+   "name":"Chris Sacca",
+   "phone":"636-555-3226",
+   "address":"855 Delaware Avenue, San Francisco, 94108",
+   "email":"chris@lowercasecapital.com",
+   "url": "https://pbs.twimg.com/profile_images/668902554957316096/IpjBGyjC.jpg"
+  },
+];
+
+var NameStorage = {
+  get: function(){
+    try {
+      var contacts = JSON.parse(localStorage.contacts);
+    } catch(err) {
+      var contacts = contactSamples;
+    };
+
+    return contacts;
+  },
+
+  write: function(contacts){
+    localStorage.contacts = JSON.stringify(contacts);
+  }
+};
+
 $(document).ready(function(){
+  renderList();
+  // Some animation
   $('.buttonLabel').toggleClass('animated flash');
   $('#newContact').hover(function(){
     $('#newContact').toggleClass('animated pulse');
   });
-  $('#addContact').click(addContact)
+
+  // Event handlers
+  $('#addContact').click(addContact);
 });
 
+function renderList() {
+  var contacts = NameStorage.get();
+
+  var $contactItems = contacts.map(function(contactitem){
+    var $item = $('.template').clone().removeClass('template');
+    $item.find('.name').text(contactitem.name);
+    $item.find('.num').text(contactitem.phone);
+    $item.find('.homeAddress').text(contactitem.address);
+    $item.find('.emailAddress').text(contactitem.email);
+    $item.find('img').attr('src', contactitem.url);
+
+    return $item;
+  });
+
+  $('#contactList').empty().append($contactItems);
+}
+
 function addContact(){
+  // Gather values from the form
   var name = $('#input-name').val();
   var phone = $('#input-phone').val();
   var url = $('#input-url').val();
   var address = $('#input-address').val();
-  var email = $('#input-email').text();
+  var email = $('#input-email').val();
+
+  // Form validation
   if(name == '') {
     $('#name').addClass('has-error')
     return;
@@ -23,75 +80,8 @@ function addContact(){
   if(address == '') address = "-";
   if(email == '') email = "-";
 
-  console.log(name, phone, url, address, email);
-  var contactItem = $(`
-          <div class="col-xs-12 col-md-4 contactItem animated slideInRight">
-              <div class="panel panel-default">
-                <div class="panel-body">
-                  <div class="col-xs-4 col-md-3 imageBox">
-                    <img class="profileImg" src="${url}" alt="">
-                  </div>
-                  <div class="col-xs-8 col-md-9">
-                    <div class="row">
-                      <h4 class="name">
-                        ${name}
-                      </h4>
-                      <p class="phone">
-                        <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-                        <span class="num">${phone}</span>
-                      </p>
-                      <p class="address">
-                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-                        <span class="homeAddress">${address}</span>
-                      </p>
-                      <p class="email">
-                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                        <span class="emailAddress">${email}</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-        `);
-        $('#contactList').append(contactItem);
-        $('.modal').modal('hide')
-        $('.has-error').removeClass('has-error');
+  // TODO: Render contactlist
 
-
-
-  // var $contactItem = $('<div>').addClass('col-xs-12 col-md-4 contactItem');
-  // var $panel = $('<div>').addClass('panel panel-default');
-  // var $panelBody = $('<div>').addClass('panel-body');
-  //
-  // var $imageBox = $('<div>').addClass('col-xs-4 col-md-3 imageBox');
-  // var $image = $('<img>').addClass('profileImg');
-  // $image.src = url;
-
-
-
-  // $imageBox.append($image);
-  //
-  // var $contactContent = $('<div>').addClass('col-xs-8 col-md-9');
-  //
-  // var $row = $('div').addClass('row');
-  //
-  // var $name = $('<h4>').addClass('name');
-  // $name.text(name);
-  //
-  // var $phoneIcon = $('<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>');
-  // var $phonenumber = $('span').addClass('num').text(phone);
-  // var $phone = $('<p>').addClass('phone').append($phoneIcon).append($phonenumber);
-  //
-  // var row = $row.append($name).append($phone);
-  //
-  // $contactContent.append(row);
-  //
-  // $panelBody.append($imageBox).append($contactContent);
-  //
-  // $panel.append($panelBody);
-  //
-  // var $fullContact = $contactItem.append($panel);
-  //
-  // console.log($fullContact);
+  $('.modal').modal('hide')
+  $('.has-error').removeClass('has-error');
 }

@@ -82,3 +82,7 @@ h1 {
   background-color: #F47564;
   border:none;
 }
+
+.template {
+  display:none
+}
