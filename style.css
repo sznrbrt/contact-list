@@ -84,5 +84,29 @@ h1 {
 }
 
 .template {
-  display:none
+  display:none;
+}
+
+.deleteButton {
+  position:relative;
+  float:right;
+  top: -35px;
+  right: -80px;
+  background-color: transparent;
+  border: none;
+  color:#F47564;;
+}
+
+.editButton {
+  background-color: transparent;
+  border: none;
+  color:#F47564;
+  position:relative;
+  float:right;
+  top: -35px;
+  right: -80px;
+}
+
+.panel-body {
+  min-height: 160px;
 }

@@ -6,14 +6,16 @@ var contactSamples = [
    "phone":"636-555-3226",
    "address":"855 Delaware Avenue, San Francisco, 94108",
    "email":"adam@quora.com",
-   "url":"https://pbs.twimg.com/profile_images/422587147124604928/hlT0oR0m_400x400.png"
+   "url":"https://pbs.twimg.com/profile_images/422587147124604928/hlT0oR0m_400x400.png",
+   "id":1
   },
   {
    "name":"Chris Sacca",
    "phone":"636-555-3226",
    "address":"855 Delaware Avenue, San Francisco, 94108",
    "email":"chris@lowercasecapital.com",
-   "url": "https://pbs.twimg.com/profile_images/668902554957316096/IpjBGyjC.jpg"
+   "url": "https://pbs.twimg.com/profile_images/668902554957316096/IpjBGyjC.jpg",
+   "id":2
   },
 ];
 
@@ -22,7 +24,8 @@ var NameStorage = {
     try {
       var contacts = JSON.parse(localStorage.contacts);
     } catch(err) {
-      var contacts = contactSamples;
+      NameStorage.write(contactSamples);
+      var contacts = JSON.parse(localStorage.contacts);
     };
 
     return contacts;
@@ -34,7 +37,6 @@ var NameStorage = {
 };
 
 $(document).ready(function(){
-  renderList();
   // Some animation
   $('.buttonLabel').toggleClass('animated flash');
   $('#newContact').hover(function(){
@@ -43,13 +45,16 @@ $(document).ready(function(){
 
   // Event handlers
   $('#addContact').click(addContact);
+  renderList();
+
+  $(document).on('click', '.deleteButton', deleteContact);
+  $(document).on('click', '.editButton', editContact);
 });
 
 function renderList() {
-  var contacts = NameStorage.get();
-
-  var $contactItems = contacts.map(function(contactitem){
-    var $item = $('.template').clone().removeClass('template');
+  var contactItems = NameStorage.get();
+  var $contactItems = contactItems.map(function(contactitem){
+    var $item = $('.template').clone().attr('id', contactitem.id).removeClass('template');
     $item.find('.name').text(contactitem.name);
     $item.find('.num').text(contactitem.phone);
     $item.find('.homeAddress').text(contactitem.address);
@@ -64,24 +69,41 @@ function renderList() {
 
 function addContact(){
   // Gather values from the form
-  var name = $('#input-name').val();
-  var phone = $('#input-phone').val();
-  var url = $('#input-url').val();
-  var address = $('#input-address').val();
-  var email = $('#input-email').val();
-
-  // Form validation
-  if(name == '') {
-    $('#name').addClass('has-error')
+  var newContact = {};
+  newContact.name = $('#input-name').val();
+  newContact.phone = $('#input-phone').val() || "N/A";
+  newContact.url = $('#input-url').val() || "http://placehold.it/300x300";
+  newContact.address = $('#input-address').val() || "N/A";
+  newContact.email = $('#input-email').val() || "N/A";
+  // Form validation for the name
+  if(newContact.name == '') {
+    $('#name').addClass('has-error');
     return;
   }
-  if(url == '') url = "http://placehold.it/300x300";
-  if(phone == '') phone = "-";
-  if(address == '') address = "-";
-  if(email == '') email = "-";
 
-  // TODO: Render contactlist
+  var contactList = NameStorage.get();
+  newContact.id = contactList[contactList.length - 1].id ++;
+  contactList.push(newContact);
+  NameStorage.write(contactList);
+  var newContact = {};
+  renderList();
 
   $('.modal').modal('hide')
   $('.has-error').removeClass('has-error');
+}
+
+function deleteContact(event){
+  var index = $(event.target).closest('.contactItem').index();
+  console.log(index);
+  var contacts = NameStorage.get();
+    contacts.splice(index, 1);
+    NameStorage.write(contacts);
+  renderList();
+}
+
+
+function editContact(event){
+  var index = $(event.target).closest('.contactItem').index();
+
+  console.log(index);
 }
